@@ -26,7 +26,8 @@ return {
       { "<leader>ju", "<Cmd>JdtUpdateConfig<CR>", desc = "Update Config" },
       { "<leader>jr", "<Cmd>Telescope lsp_references<CR>", desc = "Show Telescope References" },
       { "<leader>ji", "<Cmd>Telescope lsp_implementations<CR>", desc = "Show Telescope Implementation" },
-      { "<leader>jd", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "Show Declaration" },
+      { "<leader>jd", "<cmd>Telescope lsp_definitions<cr>", desc = "Show Tele Definition" },
+      { "<leader>jD", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "Show Definition" },
       { "<leader>jR", "<Cmd>lua vim.lsp.buf.rename()<CR>", desc = "Rename" },
     },
     opts = {
@@ -91,12 +92,13 @@ return {
               vim.bo.expandtab = true -- always uses spaces instead of tab characters (et).
               vim.bo.softtabstop = 4 -- number of spaces a <Tab> counts for. When 0, feature is off (sts).
 
-              -- Find root of project
-              -- local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }
-              -- local root_dir = require("jdtls.setup").find_root(root_markers)
-              -- if root_dir == "" then
-              --   return
-              -- end
+              --Find root of project
+              local root_markers = { ".git", "mvnw", "mvnw.bat", "gradlew", "pom.xml", "build.gradle" }
+              local root_dir = require("jdtls.setup").find_root(root_markers)
+              root_dir = require("user.jdtls").find_root(root_markers)
+              if root_dir == "" then
+                return
+              end
               local jdtls = require("jdtls")
               local jdtls_config = vim.tbl_deep_extend("force", opts, {
                 on_attach = function(client, buffer)
@@ -108,9 +110,7 @@ return {
                     require("jdtls").pick_test({ bufnr = buffer, after_test = print_test_results })
                   end, { buffer = buffer, desc = "Run Test" })
                   require("jdtls").setup_dap({ hotcodereplace = "auto" })
-                  require("jdtls.dap").setup_dap_main_class_configs({
-                    config_overrides = { stepFilter = { "java.*", "jdk.*", "javax.*", "sun.*" } },
-                  })
+                  require("jdtls.dap").setup_dap_main_class_configs()
                   require("jdtls.setup").add_commands()
                 end,
                 cmd = {
@@ -134,7 +134,7 @@ return {
                   "-data",
                   WORKSPACE_PATH,
                 },
-                root_dir = require("user.jdtls").determine_java_project_root(),
+                root_dir = root_dir,
                 settings = {
                   java = {
                     -- jdt = {
@@ -182,15 +182,15 @@ return {
                     saveActions = {
                       organizeImports = true,
                     },
-                    cleanup = {
-                      actionsOnSave = {
-                        "addOverride",
-                        "invertEquals",
-                        "addFinalModifier",
-                        "lambdaExpression",
-                        "switchExpression",
-                      },
-                    },
+                    --cleanup = {
+                    --  actionsOnSave = {
+                    --    "addOverride",
+                    --    "invertEquals",
+                    --    "addFinalModifier",
+                    --    "lambdaExpression",
+                    --    "switchExpression",
+                    --  },
+                    --},
                     format = {
                       enabled = true,
                       settings = {

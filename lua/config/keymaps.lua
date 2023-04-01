@@ -119,7 +119,13 @@ map("n", "<leader>ud", "<nop>")--"Util.toggle_diagnostics, { desc = "Toggle Diag
 map("n", "<leader>ul", "<nop>")-- function() Util.toggle("relativenumber", true) Util.toggle("number") end, { desc = "Toggle Line Numbers" })
 map("n", "<leader>uc", "<nop>")-- function() Util.toggle("conceallevel", false, {0, conceallevel}) end, { desc = "Toggle Conceal" })
 
+--map("n", "<leader>ft", function() Util.float_term(nil, { cwd = Util.get_root() }) end, { desc = "Terminal (root dir)" })
+--map("n", "<leader>fT", function() Util.float_term() end, { desc = "Terminal (cwd)" })
 -- lazygit
+map("n", "<leader>ff", "<cmd>ToggleTerm dir=" .. Util.get_root() .. "<cr>", {desc = "toggleterm root"})
+map("n", "<leader>fl", "<cmd>ToggleTerm<cr>", {desc = "toggleterm noroot"})
+map("n", "<leader>fF", "<cmd>lua print('ToggleTerm dir=" .. Util.get_root() .. "')<cr>", {desc = "toggleterm"})
+--map("n", "<leader>fF", function() Util.float_term(nil, { cwd = Util.get_root() }) end, { desc = "Terminal (root dir)" })
 map("n", "<leader>gg", function() Util.float_term({ "lazygit" }, { cwd = Util.get_root() }) end, { desc = "Lazygit (root dir)" })
 map("n", "<leader>gG", function() Util.float_term({ "lazygit" }) end, { desc = "Lazygit (cwd)" })
 

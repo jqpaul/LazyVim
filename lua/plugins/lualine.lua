@@ -1,5 +1,6 @@
 return {
   "nvim-lualine/lualine.nvim",
+  --enabled = false,
   event = "VeryLazy",
   opts = function(plugin)
     local icons = require("lazyvim.config").icons

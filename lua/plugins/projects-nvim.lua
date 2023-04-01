@@ -6,7 +6,7 @@ return {
   },
   lazy = false,
   keys = {
-    { "<leader>P", "<cmd>Telescope projects<cr>", desc = "Show Projects" },
+    { "<leader>p", "<cmd>Telescope projects<cr>", desc = "Show Projects" },
   },
   config = function()
     require("project_nvim").setup({
