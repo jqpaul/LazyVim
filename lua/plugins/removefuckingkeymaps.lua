@@ -9,17 +9,10 @@ return {
   },
   {
     "folke/todo-comments.nvim",
-    cmd = { "TodoTrouble", "TodoTelescope" },
-    event = { "BufReadPost", "BufNewFile" },
-    config = true,
-    -- stylua: ignore
     keys = {
-      { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
-      { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
-      { "<leader>ct", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
-      { "<leader>xt", false}, -- "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
-      { "<leader>xT", false}, --"<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
-      { "<leader>st", false}, --"<cmd>TodoTelescope<cr>", desc = "Todo" },
+      { "<leader>xt", false }, -- "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
+      { "<leader>xT", false }, --"<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
+      { "<leader>st", false }, --"<cmd>TodoTelescope<cr>", desc = "Todo" },
     },
   },
   {
@@ -28,6 +21,8 @@ return {
       { "<leader>", false },
       { "<leader>,", false }, -- "<cmd>Telescope buffers show_all_buffers=true<cr>", desc = "Switch Buffer" },
       { "<leader>:", false }, --  "<cmd>Telescope command_history<cr>", desc = "Command History" },
+      { "<leader>/", false }, -- "<cmd>Telescope grep_string<cr>", desc = "Find in Files (Grep)" },
+      { "<leader>fb", false }, --"<cmd>Telescope buffers<cr>", desc = "Buffers" },
       { "<leader>ff", false }, --  Util.telescope("files"), desc = "Find Files (root dir)" },
       { "<leader>fF", false }, --  Util.telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
       { "<leader>fr", false }, --  "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
@@ -50,8 +45,6 @@ return {
       { "<leader>uC", false }, --  Util.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
       { "<leader>ss", false },
       { "<leader>sS", false },
-      --{ "<leader>fF", require("lazyvim.util").telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
-      --{ "<leader><space>", "<cmd>Telescope find_files<cr>", desc = "Find Files (root dir)" },
     },
   },
 }

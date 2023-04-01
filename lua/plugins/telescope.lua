@@ -19,11 +19,9 @@ return {
   keys = {
     { "<leader>cb", "<cmd>lua require('telescope').extensions.refactoring.refactors()<CR>", desc = "refactoring" },
     { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
-    --{ "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "status" },
     { "<leader>gs", require("lazyvim.util").telescope("git_status"), desc = "Git Status" },
+    { "<C-b>", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
     { "<C-a>", require("lazyvim.util").telescope("live_grep"), desc = "Find in Files (Grep)" },
-    --{ "<leader>/", "<cmd>Telescope grep_string<cr>", desc = "Find in Files (Grep)" },
-    --{ "<C-a>", "<cmd>Telescope grep_string<cr>", desc = "Find in Files (Grep)" },
   },
   setup = function()
     require("telescope").setup({

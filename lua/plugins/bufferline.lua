@@ -6,11 +6,40 @@ return {
     { "<leader>bp", false },
     { "<leader>bP", false },
   },
+  setup = function()
+    require("bufferline").setup({
+      highlights = {
+        indicator_selected = {
+          guifg = {
+            attribute = "fg",
+            highlight = "Type",
+          },
+          guibg = {
+            attribute = "bg",
+            highlight = "Type",
+          },
+        },
+        buffer_selected = {
+          gui = "NONE",
+        },
+        pick_selected = {
+          gui = "NONE",
+        },
+      },
+    })
+  end,
   opts = {
     options = {
       diagnostics = "nvim_lsp",
       always_show_bufferline = false,
-      mode = "tab",
+      separator_style = "slant",
+      --mode = "tabs",
+      themable = true,
+      indicator = {
+        icon = "▎",
+        style = "icon",
+      },
+      color_icons = true,
       diagnostics_indicator = function(_, _, diag)
         local icons = require("lazyvim.config").icons.diagnostics
         local ret = (diag.error and icons.Error .. diag.error .. " " or "")
