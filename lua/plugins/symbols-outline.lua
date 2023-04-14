@@ -8,7 +8,7 @@ return {
       -- add your options that should be passed to the setup() function here
       relative_width = true,
       auto_close = true,
-      width = 15,
+      width = 25,
     },
   },
 }

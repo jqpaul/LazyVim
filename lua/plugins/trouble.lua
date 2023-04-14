@@ -1,6 +1,8 @@
 return {
   "folke/trouble.nvim",
-  opts = { use_diagnostic_signs = true },
+  opts = { use_diagnostic_signs = true, actions_keys = {
+    open_tab = { "C-p" },
+  } },
   keys = {
     { "<leader>cx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },
     { "<leader>cX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics (Trouble)" },
@@ -8,6 +10,6 @@ return {
     { "<leader>xX", false }, --"<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics (Trouble)" },
     { "<leader>xL", false }, -- "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
     { "<leader>xQ", false }, -- "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
-    { "<leader>T", "<cmd>TroubleToggle<cr>", desc = "Toggle Trouble" },
+    { "<leader>T", "<cmd>TroubleToggle todo<cr>", desc = "Toggle Trouble" },
   },
 }

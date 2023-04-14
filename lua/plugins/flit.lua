@@ -1,4 +1,4 @@
 return {
   "ggandor/flit.nvim",
-  enabled = false,
+  --enabled = false,
 }

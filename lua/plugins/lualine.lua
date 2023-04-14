@@ -13,6 +13,18 @@ return {
       end
     end
 
+    local function search_result()
+      if vim.v.hlsearch == 0 then
+        return ""
+      end
+      local last_search = vim.fn.getreg("/")
+      if not last_search or last_search == "" then
+        return ""
+      end
+      local searchcount = vim.fn.searchcount({ maxcount = 9999 })
+      return last_search .. "(" .. searchcount.current .. "/" .. searchcount.total .. ")"
+    end
+
     return {
       options = {
         theme = "auto",
@@ -41,25 +53,12 @@ return {
           { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
           { "filename", path = 0, symbols = { modified = "  ", readonly = "", unnamed = "" } },
           -- stylua: ignore
-          {
-            function() return require("nvim-navic").get_location() end,
-            cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
-          },
+          -- {
+          --   function() return require("nvim-navic").get_location() end,
+          --   cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
+          -- },
         },
         lualine_x = {
-          -- stylua: ignore
-          {
-            function() return require("noice").api.status.command.get() end,
-            cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-            color = fg("Statement")
-          },
-          -- stylua: ignore
-          {
-            function() return require("noice").api.status.mode.get() end,
-            cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-            color = fg("Constant") ,
-          },
-          { require("lazy.status").updates, cond = require("lazy.status").has_updates, color = fg("Special") },
           {
             "diff",
             symbols = {
@@ -69,13 +68,24 @@ return {
             },
           },
         },
-        lualine_y = {
-          { "progress", separator = " ", padding = { left = 1, right = 0 } },
-          { "location", padding = { left = 0, right = 1 } },
-        },
+        -- lualine_y = {
+        --   { "progress", separator = " ", padding = { left = 1, right = 0 } },
+        --   { "location", padding = { left = 0, right = 1 } },
+        -- },
+        -- lualine_y = { search_result },
+        -- lualine_x = {
+        --   {
+        --     function()
+        --       return vim.api.nvim_buf_line_count(0) .. " "
+        --     end,
+        --     separator = " ",
+        --     padding = { left = 1, right = 0 },
+        --   },
+        -- },
+        lualine_y = { "tabs" },
         lualine_z = {
           function()
-            return " " .. os.date("%R")
+            return os.date("%T")
           end,
         },
       },

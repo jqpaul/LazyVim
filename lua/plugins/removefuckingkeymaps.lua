@@ -8,6 +8,12 @@ return {
     },
   },
   {
+    "folke/lazy.nvim",
+    keys = {
+      { "<leader>l", false },
+    },
+  },
+  {
     "folke/todo-comments.nvim",
     keys = {
       { "<leader>xt", false }, -- "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
@@ -26,8 +32,9 @@ return {
       { "<leader>ff", false }, --  Util.telescope("files"), desc = "Find Files (root dir)" },
       { "<leader>fF", false }, --  Util.telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
       { "<leader>fr", false }, --  "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
+      { "<leader>gc", false },
       { "<leader>sa", false }, --  "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
-      { "<leader>sb", false }, --  "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer" },
+      { "<leader>,", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer" },
       { "<leader>sc", false }, --  "<cmd>Telescope command_history<cr>", desc = "Command History" },
       { "<leader>sC", false }, --  "<cmd>Telescope commands<cr>", desc = "Commands" },
       { "<leader>sd", false }, --  "<cmd>Telescope diagnostics<cr>", desc = "Diagnostics" },
@@ -45,6 +52,37 @@ return {
       { "<leader>uC", false }, --  Util.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
       { "<leader>ss", false },
       { "<leader>sS", false },
+    },
+  },
+  {
+    "akinsho/bufferline.nvim",
+    keys = {
+      { "<leader>bp", false },
+      { "<leader>bP", false },
+    },
+  },
+  {
+    "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    enabled = false,
+    config = {
+      on_attach = function(buffer)
+        local function map(mode, l, r, desc)
+          vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
+        end
+        map("n", "]h", "<nop>", "Next Hunk")
+        map("n", "[h", "<nop>", "Prev Hunk")
+        map({ "n", "v" }, "<leader>ghs", "<nop>", "Stage Hunk")
+        map({ "n", "v" }, "<leader>ghr", "<nop>", "Reset Hunk")
+        map("n", "<leader>ghS", "<nop>", "Stage Buffer")
+        map("n", "<leader>ghu", "<nop>", "Undo Stage Hunk")
+        map("n", "<leader>ghR", "<nop>", "Reset Buffer")
+        map("n", "<leader>ghp", "<nop>", "Preview Hunk")
+        map("n", "<leader>ghb", "<nop>", "Blame Line")
+        map("n", "<leader>ghd", "<nop>", "Diff This")
+        map("n", "<leader>ghD", "<nop>", "Diff This ~")
+        map({ "o", "x" }, "ih", "<nop>", "GitSigns Select Hunk")
+      end,
     },
   },
 }

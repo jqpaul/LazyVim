@@ -10,4 +10,7 @@ return {
   build = ":UpdateRemotePlugins",
   lazy = true,
   event = { "BufEnter *_test.*,*_spec.*,*est_*.*" },
+  opts = function()
+    vim.g.ultest_deprecation_notice = 0
+  end,
 }

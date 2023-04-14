@@ -3,37 +3,14 @@ return {
   dependencies = "nvim-tree/nvim-web-devicons",
   enabled = true,
   keys = {
-    { "<leader>bp", false },
-    { "<leader>bP", false },
+    { "<leader><tab>p", "<cmd>BufferLinePick<cr>", desc = "Pick Tab" },
   },
-  setup = function()
-    require("bufferline").setup({
-      highlights = {
-        indicator_selected = {
-          guifg = {
-            attribute = "fg",
-            highlight = "Type",
-          },
-          guibg = {
-            attribute = "bg",
-            highlight = "Type",
-          },
-        },
-        buffer_selected = {
-          gui = "NONE",
-        },
-        pick_selected = {
-          gui = "NONE",
-        },
-      },
-    })
-  end,
   opts = {
     options = {
       diagnostics = "nvim_lsp",
-      always_show_bufferline = false,
+      always_show_bufferline = true,
       separator_style = "slant",
-      --mode = "tabs",
+      -- mode = "tabs",
       themable = true,
       indicator = {
         icon = "▎",

@@ -4,7 +4,6 @@ return {
   event = { "BufReadPost", "BufNewFile" },
   config = true,
   keys = {
-    { "<leader>ct", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
-    { "<leader>cT", "<cmd>TodoTelescope<cr>", desc = "Todo (Telescope)" },
+    { "<leader>ct", "<cmd>TodoQuickFix<cr>", desc = "Todo (Quickfix)" },
   },
 }

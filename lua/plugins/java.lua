@@ -5,30 +5,44 @@ return {
       vim.list_extend(opts.ensure_installed, { "java" })
     end,
   },
-
-  -- correctly setup mason lsp / dap extensions
   {
     "williamboman/mason.nvim",
     opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed, { "jdtls", "java-test", "java-debug-adapter" }) --, "google-java-format" })
+      vim.list_extend(opts.ensure_installed, {
+        "jdtls",
+        "java-test",
+        "java-debug-adapter",
+        "lemminx",
+        "gradle-language-server",
+      })
     end,
   },
-  -- correctly setup lspconfig
   {
     "neovim/nvim-lspconfig",
-    dependencies = { "mfussenegger/nvim-jdtls", "mfussenegger/nvim-dap", "rcarriga/nvim-dap-ui" },
+    dependencies = {
+      "mfussenegger/nvim-jdtls",
+      "mfussenegger/nvim-dap",
+      "rcarriga/nvim-dap-ui",
+    },
     keys = {
-      { "<leader>jo", "<Cmd>lua require'jdtls'.organize_imports()<CR>", desc = "Organize Imports" },
+      { "<leader>jo", "<Cmd>lua require('jdtls').organize_imports()<CR>", desc = "Organize Imports" },
       { "<leader>jv", "<Cmd>lua require('jdtls').extract_variable()<CR>", desc = "Extract Variable" },
       { "<leader>jc", "<Cmd>lua require('jdtls').extract_constant()<CR>", desc = "Extract Constant" },
-      { "<leader>jt", "<Cmd>lua require'jdtls'.test_nearest_method()<CR>", desc = "Test Method" },
-      { "<leader>jT", "<Cmd>lua require'jdtls'.test_class()<CR>", desc = "Test Class" },
-      { "<leader>ju", "<Cmd>JdtUpdateConfig<CR>", desc = "Update Config" },
-      { "<leader>jr", "<Cmd>Telescope lsp_references<CR>", desc = "Show Telescope References" },
-      { "<leader>ji", "<Cmd>Telescope lsp_implementations<CR>", desc = "Show Telescope Implementation" },
-      { "<leader>jd", "<cmd>Telescope lsp_definitions<cr>", desc = "Show Tele Definition" },
-      { "<leader>jD", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "Show Definition" },
+      { "<leader>jt", "<Cmd>lua require('jdtls').test_nearest_method()<CR>", desc = "Test Method" },
+      { "<leader>jT", "<Cmd>lua require('jdtls').test_class()<CR>", desc = "Test Class" },
+      { "<leader>jjb", "<Cmd>JdtBytecode<CR>", desc = "Show Bytecode" },
+      { "<leader>jjc", "<Cmd>JdtCompile full<CR>", desc = "Compile all" },
+      { "<leader>jjl", "<Cmd>JdtShowLogs<CR>", desc = "Show Logs" },
+      { "<leader>jjr", "<Cmd>JdtWipeDataAndRestart<CR>", desc = "Restart fresh" },
+      { "<leader>jjR", "<Cmd>JdtSetRuntime<CR>", desc = "Set Runtime Version" },
+      { "<leader>jju", "<Cmd>JdtUpdateConfig<CR>", desc = "Update Config" },
+      { "<leader>jr", "<Cmd>lua vim.lsp.buf.references()<CR>", desc = "Show References" },
+      { "<leader>ji", "<Cmd>lua vim.lsp.buf.implementation()<CR>", desc = "Show Implementation" },
+      { "<leader>jd", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "Show Definition" },
       { "<leader>jR", "<Cmd>lua vim.lsp.buf.rename()<CR>", desc = "Rename" },
+      { "<leader>jsr", "<Cmd>Telescope lsp_references<CR>", desc = "Show Telescope References" },
+      { "<leader>jsi", "<Cmd>Telescope lsp_implementations<CR>", desc = "Show Telescope Implementation" },
+      { "<leader>jsd", "<cmd>Telescope lsp_definitions<cr>", desc = "Show Telescope Definition" },
     },
     opts = {
       -- configure jdtls and attach to Java ft
@@ -60,6 +74,7 @@ return {
             java_dbg_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
             java_dbg_path .. "/.vscode-java-test/server/*.jar",
             java_test_path .. "/extension/server/*.jar",
+            -- "/home/joe/.config/nvim/org.eclipse.buildship.core_3.1.6.v20220511-1359.jar",
           }
 
           local bundles = {}
@@ -68,12 +83,8 @@ return {
               table.insert(bundles, bundle)
             end
           end
-
-          local extendedClientCapabilities = vim.tbl_deep_extend("force", require("jdtls").extendedClientCapabilities, {
-            resolveAdditionalTextEditsSupport = true,
-            progressReportProvider = false,
-          })
-
+          local extendedClientCapabilities = require("jdtls").extendedClientCapabilities
+          extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
           local function print_test_results(items)
             if #items > 0 then
               vim.cmd([[Trouble quickfix]])
@@ -93,9 +104,10 @@ return {
               vim.bo.softtabstop = 4 -- number of spaces a <Tab> counts for. When 0, feature is off (sts).
 
               --Find root of project
-              local root_markers = { ".git", "mvnw", "mvnw.bat", "gradlew", "pom.xml", "build.gradle" }
-              local root_dir = require("jdtls.setup").find_root(root_markers)
-              root_dir = require("user.jdtls").find_root(root_markers)
+              local root_markers =
+                { ".git", "mvnw", "mvnw.bat", "gradlew", "pom.xml", "build.gradle", "gradle.settings" }
+              --local root_dir = require("jdtls.setup").find_root(root_markers)
+              local root_dir = require("user.jdtls").find_root3(root_markers)
               if root_dir == "" then
                 return
               end
@@ -106,7 +118,7 @@ return {
                   require("lazyvim.plugins.lsp.keymaps").on_attach(client, buffer)
                   local _, _ = pcall(vim.lsp.codelens.refresh)
                   -- custom keymaps
-                  vim.keymap.set("n", "<leader>jj", function()
+                  vim.keymap.set("n", "<leader>jq", function()
                     require("jdtls").pick_test({ bufnr = buffer, after_test = print_test_results })
                   end, { buffer = buffer, desc = "Run Test" })
                   require("jdtls").setup_dap({ hotcodereplace = "auto" })
@@ -121,7 +133,8 @@ return {
                   "-Dlog.protocol=true",
                   "-Dlog.level=ALL",
                   "-javaagent:" .. mason_path .. "/packages/jdtls/lombok.jar",
-                  "-Xms1g",
+                  "-Xms8G",
+                  "-Xmx8G",
                   "--add-modules=ALL-SYSTEM",
                   "--add-opens",
                   "java.base/java.util=ALL-UNNAMED",
@@ -137,17 +150,24 @@ return {
                 root_dir = root_dir,
                 settings = {
                   java = {
-                    -- jdt = {
-                    --   ls = {
-                    --     vmargs = "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx1G -Xms100m"
-                    --   }
-                    -- },
+                    jdt = {
+                      ls = {
+                        vmargs = "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx8G -Xms8G",
+                      },
+                    },
                     eclipse = {
                       downloadSources = true,
                     },
+                    trace = {
+                      server = "verbose",
+                    },
                     configuration = {
-                      updateBuildConfiguration = "interactive",
+                      updateBuildConfiguration = "automatic",
                       runtimes = {
+                        -- {
+                        --   name = "JavaSE-1.8",
+                        --   path = "/usr/lib/jvm/java-8-openjdk/",
+                        -- },
                         {
                           name = "JavaSE-11",
                           path = "/usr/lib/jvm/java-11-openjdk/",
@@ -155,15 +175,33 @@ return {
                         {
                           name = "JavaSE-17",
                           path = "/usr/lib/jvm/java-17-openjdk/",
+                          default = true,
                         },
                         {
                           name = "JavaSE-19",
                           path = "/usr/lib/jvm/java-19-openjdk/",
                         },
                       },
+                      maven = {
+                        -- Absolute path to settings.xml
+                        -- userSettings = "",
+                        -- globalSettings = "",
+                      },
+                    },
+                    import = {
+                      gradle = {
+                        -- home = "",
+                        wrapper = {
+                          enabled = true,
+                        },
+                        annotationProcessing = {
+                          enabled = true,
+                        },
+                      },
                     },
                     maven = {
                       downloadSources = true,
+                      updateSnapshots = true,
                     },
                     implementationsCodeLens = {
                       enabled = true,
@@ -173,6 +211,7 @@ return {
                     },
                     references = {
                       includeDecompiledSources = true,
+                      includeAccessors = true,
                     },
                     inlayHints = {
                       parameterNames = {
@@ -182,15 +221,15 @@ return {
                     saveActions = {
                       organizeImports = true,
                     },
-                    --cleanup = {
-                    --  actionsOnSave = {
-                    --    "addOverride",
-                    --    "invertEquals",
-                    --    "addFinalModifier",
-                    --    "lambdaExpression",
-                    --    "switchExpression",
-                    --  },
-                    --},
+                    cleanup = {
+                      actionsOnSave = {
+                        "addOverride",
+                        "invertEquals",
+                        "addFinalModifier",
+                        "lambdaExpression",
+                        "switchExpression",
+                      },
+                    },
                     format = {
                       enabled = true,
                       settings = {
@@ -199,8 +238,14 @@ return {
                         url = home .. "/.config/nvim/.java-google-formatter.xml",
                       },
                     },
+                    progressReports = { enabled = true },
                   },
-                  signatureHelp = { enabled = true },
+                  signatureHelp = {
+                    enabled = true,
+                    description = {
+                      enabled = true,
+                    },
+                  },
                   completion = {
                     importOrder = {
                       "java",
@@ -241,6 +286,9 @@ return {
                 init_options = {
                   bundles = bundles,
                 },
+                on_init = function(client)
+                  client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+                end,
               })
               jdtls.start_or_attach(jdtls_config)
               vim.cmd(

@@ -6,6 +6,11 @@ return {
       "<cmd>Telescope find_files search_dirs=/Drive/Docs_unencrypted/VimMd<cr>",
       desc = "Open Vimwiki Index",
     },
+    {
+      "<leader>wt",
+      "<cmd>VimwikiTable 2<cr>",
+      desc = "Create new Table",
+    },
   },
   config = function()
     vim.g.vimwiki_list = {

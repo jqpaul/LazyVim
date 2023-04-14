@@ -3,23 +3,27 @@ return {
   opts = function()
     local dashboard = require("alpha.themes.dashboard")
     local logo = [[
-  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
-  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
-  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
-  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
-  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
-  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
+ ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
+ ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
+ ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
+ ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
+ ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
+ ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
     ]]
     dashboard.section.header.val = vim.split(logo, "\n")
     dashboard.section.buttons.val = {
-      dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),
-      dashboard.button("p", " " .. " Projects", ":Telescope projects<CR>"),
-      dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
-      dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
-      dashboard.button("c", " " .. " Config", ":e $MYVIMRC <CR>"),
-      dashboard.button("s", " " .. " Restore Session", [[:lua require("persistence").load() <cr>]]),
-      dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<CR>"),
-      dashboard.button("q", " " .. " Quit", ":qa<CR>"),
+      -- dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),
+      dashboard.button("p", require("lazyvim.config").icons.kinds.Folder .. " Projects", ":Telescope projects<CR>"),
+      dashboard.button("r", require("lazyvim.config").icons.kinds.File .. " Recent files", ":Telescope oldfiles <CR>"),
+      -- dashboard.button("g", "" .. " Find text", ":Telescope live_grep <CR>"),
+      dashboard.button("c", require("lazyvim.config").icons.kinds.Unit .. " Config", ":e $MYVIMRC <CR>"),
+      dashboard.button(
+        "s",
+        require("lazyvim.config").icons.kinds.Property .. " Restore Session",
+        [[:lua require("persistence").load({last = true}) <cr>]]
+      ),
+      dashboard.button("l", require("lazyvim.config").icons.kinds.Event .. " Lazy", ":Lazy<CR>"),
+      dashboard.button("q", require("lazyvim.config").icons.kinds.Class .. " Quit", ":qa<CR>"),
     }
     for _, button in ipairs(dashboard.section.buttons.val) do
       button.opts.hl = "AlphaButtons"
