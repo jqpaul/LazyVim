@@ -33,14 +33,11 @@ return {
       },
       sections = {
         lualine_a = {
-          function()
-            return vim.pesc(vim.g.coc_status or "")
-          end,
           "bo:filetype",
         },
         --lualine_a = { "mode" },
-        lualine_b = { "branch" },
-        lualine_c = {
+        -- lualine_b = { "mode" },
+        lualine_b = {
           {
             "diagnostics",
             symbols = {
@@ -50,15 +47,15 @@ return {
               hint = icons.diagnostics.Hint,
             },
           },
-          { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-          { "filename", path = 0, symbols = { modified = "  ", readonly = "", unnamed = "" } },
+          -- { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+          -- { "filename", path = 0, symbols = { modified = "  ", readonly = "", unnamed = "" } },
           -- stylua: ignore
           -- {
           --   function() return require("nvim-navic").get_location() end,
           --   cond = function() return package.loaded["nvim-navic"] and require("nvim-navic").is_available() end,
           -- },
         },
-        lualine_x = {
+        lualine_c = {
           {
             "diff",
             symbols = {
@@ -68,6 +65,7 @@ return {
             },
           },
         },
+        lualine_x = {},
         -- lualine_y = {
         --   { "progress", separator = " ", padding = { left = 1, right = 0 } },
         --   { "location", padding = { left = 0, right = 1 } },
@@ -82,7 +80,12 @@ return {
         --     padding = { left = 1, right = 0 },
         --   },
         -- },
-        lualine_y = { "tabs" },
+        lualine_y = {
+          {
+            "tabs",
+            mode = 1,
+          },
+        },
         lualine_z = {
           function()
             return os.date("%T")

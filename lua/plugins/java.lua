@@ -18,6 +18,13 @@ return {
     end,
   },
   {
+    "lvimuser/lsp-inlayhints.nvim",
+    lazy = false,
+    config = function()
+      require("lsp-inlayhints").setup()
+    end,
+  },
+  {
     "neovim/nvim-lspconfig",
     dependencies = {
       "mfussenegger/nvim-jdtls",
@@ -107,7 +114,7 @@ return {
               local root_markers =
                 { ".git", "mvnw", "mvnw.bat", "gradlew", "pom.xml", "build.gradle", "gradle.settings" }
               --local root_dir = require("jdtls.setup").find_root(root_markers)
-              local root_dir = require("user.jdtls").find_root3(root_markers)
+              local root_dir = require("user.jdtls").find_root(root_markers)
               if root_dir == "" then
                 return
               end
@@ -164,10 +171,10 @@ return {
                     configuration = {
                       updateBuildConfiguration = "automatic",
                       runtimes = {
-                        -- {
-                        --   name = "JavaSE-1.8",
-                        --   path = "/usr/lib/jvm/java-8-openjdk/",
-                        -- },
+                        {
+                          name = "JavaSE-1.8",
+                          path = "/usr/lib/jvm/java-8-openjdk/",
+                        },
                         {
                           name = "JavaSE-11",
                           path = "/usr/lib/jvm/java-11-openjdk/",
@@ -190,13 +197,14 @@ return {
                     },
                     import = {
                       gradle = {
-                        -- home = "",
-                        wrapper = {
-                          enabled = true,
-                        },
-                        annotationProcessing = {
-                          enabled = true,
-                        },
+                        enabled = true,
+                        --     -- home = "",
+                        --     wrapper = {
+                        --       enabled = true,
+                        --     },
+                        --     annotationProcessing = {
+                        --       enabled = true,
+                        --     },
                       },
                     },
                     maven = {

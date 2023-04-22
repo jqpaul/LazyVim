@@ -5,12 +5,13 @@ return {
   },
   opts = {
     window = {
+      position = "float",
       mappings = {
         ["<space>"] = "none",
       },
     },
     filesystem = {
-      group_empty_dirs = true,
+      group_empty_dirs = false,
       filtered_items = {
         visible = false,
         hide_dotfiles = false,

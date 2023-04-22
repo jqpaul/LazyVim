@@ -16,6 +16,7 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup("close_diff_with_q"),
   pattern = {
     "DiffviewFileHistory",
+    "DiffviewFiles",
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
@@ -50,5 +51,19 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+  end,
+})
+
+vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = "LspAttach_inlayhints",
+  callback = function(args)
+    if not (args.data and args.data.client_id) then
+      return
+    end
+
+    local bufnr = args.buf
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    require("lsp-inlayhints").on_attach(client, bufnr)
   end,
 })

@@ -1,11 +1,13 @@
 return {
   "windwp/nvim-spectre",
-  enabled = false,
+  enabled = true,
   keys = {
     {
       "<leader>sr",
-      false,
-      --  desc = "Replace in files (Spectre)",
+      function()
+        require("spectre").open()
+      end,
+      desc = "Replace in files (Spectre)",
     },
   },
 }
