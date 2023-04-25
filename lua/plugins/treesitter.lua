@@ -25,6 +25,9 @@ return {
           end
         end,
       },
+      {
+        "nvim-treesitter/playground",
+      },
     },
     keys = {
       { "<c-space>", desc = "Increment selection" },

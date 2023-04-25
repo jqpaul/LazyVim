@@ -6,8 +6,8 @@ opt.termguicolors = true
 opt.clipboard = "unnamedplus" -- Sync with system clipboard
 -- opt.mouse = "" -- Enable mouse mode
 opt.relativenumber = false -- Relative line numbers
-opt.scrolloff = 7 -- Lines of context
-opt.sidescrolloff = 10 -- Columns of context
+opt.scrolloff = 15 -- Lines of context
+opt.sidescrolloff = 30 -- Columns of context
 opt.list = true
 opt.background = "dark"
 vim.lsp.set_log_level(0)
