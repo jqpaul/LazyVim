@@ -184,10 +184,10 @@ return {
                           path = "/usr/lib/jvm/java-17-openjdk/",
                           default = true,
                         },
-                        {
-                          name = "JavaSE-19",
-                          path = "/usr/lib/jvm/java-19-openjdk/",
-                        },
+                        -- {
+                        --   name = "JavaSE-19",
+                        --   path = "/usr/lib/jvm/java-19-openjdk/",
+                        -- },
                       },
                       maven = {
                         -- Absolute path to settings.xml
