@@ -13,6 +13,8 @@ require("lazy").setup({
     -- import any extras modules here
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.json" },
+    { import = "lazyvim.plugins.extras.lang.rust" },
+    { import = "lazyvim.plugins.extras.lang.clangd" },
     { import = "lazyvim.plugins.extras.linting.eslint" },
     { import = "lazyvim.plugins.extras.formatting.prettier" },
     -- { import = "lazyvim.plugins.extras.coding.copilot" },
@@ -40,7 +42,6 @@ require("lazy").setup({
     enabled = true,
     notify = false, -- get a notification when changes are found
   },
-  colorscheme = "preto",
   performance = {
     rtp = {
       -- disable some rtp plugins

@@ -6,6 +6,7 @@ return {
     { "hrsh7th/cmp-path" },
     { "saadparwaiz1/cmp_luasnip" },
     { "rcarriga/cmp-dap" },
+    { "lukas-reineke/cmp-rg" },
   },
   version = false, -- last release is way too old
   enabled = function()
@@ -36,9 +37,11 @@ return {
     }),
     sources = require("cmp").config.sources({
       { name = "nvim_lsp" },
-      { name = "buffer" },
+      { name = "crates" },
+      -- { name = "buffer" },
       { name = "path" },
       { name = "dap" },
+      { name = "rg" },
       -- { name = "luasnip" },
     }),
     filetype = {
