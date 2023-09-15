@@ -32,24 +32,24 @@ return {
       "rcarriga/nvim-dap-ui",
     },
     keys = {
-      { "<leader>jo", "<Cmd>lua require('jdtls').organize_imports()<CR>", desc = "Organize Imports" },
-      { "<leader>jv", "<Cmd>lua require('jdtls').extract_variable()<CR>", desc = "Extract Variable" },
-      { "<leader>jc", "<Cmd>lua require('jdtls').extract_constant()<CR>", desc = "Extract Constant" },
-      { "<leader>jt", "<Cmd>lua require('jdtls').test_nearest_method()<CR>", desc = "Test Method" },
-      { "<leader>jT", "<Cmd>lua require('jdtls').test_class()<CR>", desc = "Test Class" },
-      { "<leader>jjb", "<Cmd>JdtBytecode<CR>", desc = "Show Bytecode" },
-      { "<leader>jjc", "<Cmd>JdtCompile full<CR>", desc = "Compile all" },
-      { "<leader>jjl", "<Cmd>JdtShowLogs<CR>", desc = "Show Logs" },
-      { "<leader>jjr", "<Cmd>JdtWipeDataAndRestart<CR>", desc = "Restart fresh" },
-      { "<leader>jjR", "<Cmd>JdtSetRuntime<CR>", desc = "Set Runtime Version" },
-      { "<leader>jju", "<Cmd>JdtUpdateConfig<CR>", desc = "Update Config" },
-      { "<leader>jr", "<Cmd>lua vim.lsp.buf.references()<CR>", desc = "Show References" },
-      { "<leader>ji", "<Cmd>lua vim.lsp.buf.implementation()<CR>", desc = "Show Implementation" },
-      { "<leader>jd", "<Cmd>lua vim.lsp.buf.definition()<CR>", desc = "Show Definition" },
-      { "<leader>jR", "<Cmd>lua vim.lsp.buf.rename()<CR>", desc = "Rename" },
-      { "<leader>jsr", "<Cmd>Telescope lsp_references<CR>", desc = "Show Telescope References" },
-      { "<leader>jsi", "<Cmd>Telescope lsp_implementations<CR>", desc = "Show Telescope Implementation" },
-      { "<leader>jsd", "<cmd>Telescope lsp_definitions<cr>", desc = "Show Telescope Definition" },
+      { "<leader>jo",  "<Cmd>lua require('jdtls').organize_imports()<CR>",    desc = "Organize Imports" },
+      { "<leader>jv",  "<Cmd>lua require('jdtls').extract_variable()<CR>",    desc = "Extract Variable" },
+      { "<leader>jc",  "<Cmd>lua require('jdtls').extract_constant()<CR>",    desc = "Extract Constant" },
+      { "<leader>jt",  "<Cmd>lua require('jdtls').test_nearest_method()<CR>", desc = "Test Method" },
+      { "<leader>jT",  "<Cmd>lua require('jdtls').test_class()<CR>",          desc = "Test Class" },
+      { "<leader>jjb", "<Cmd>JdtBytecode<CR>",                                desc = "Show Bytecode" },
+      { "<leader>jjc", "<Cmd>JdtCompile full<CR>",                            desc = "Compile all" },
+      { "<leader>jjl", "<Cmd>JdtShowLogs<CR>",                                desc = "Show Logs" },
+      { "<leader>jjr", "<Cmd>JdtWipeDataAndRestart<CR>",                      desc = "Restart fresh" },
+      { "<leader>jjR", "<Cmd>JdtSetRuntime<CR>",                              desc = "Set Runtime Version" },
+      { "<leader>jju", "<Cmd>JdtUpdateConfig<CR>",                            desc = "Update Config" },
+      { "<leader>jr",  "<Cmd>lua vim.lsp.buf.references()<CR>",               desc = "Show References" },
+      { "<leader>ji",  "<Cmd>lua vim.lsp.buf.implementation()<CR>",           desc = "Show Implementation" },
+      { "<leader>jd",  "<Cmd>lua vim.lsp.buf.definition()<CR>",               desc = "Show Definition" },
+      { "<leader>jR",  "<Cmd>lua vim.lsp.buf.rename()<CR>",                   desc = "Rename" },
+      { "<leader>jsr", "<Cmd>Telescope lsp_references<CR>",                   desc = "Show Telescope References" },
+      { "<leader>jsi", "<Cmd>Telescope lsp_implementations<CR>",              desc = "Show Telescope Implementation" },
+      { "<leader>jsd", "<cmd>Telescope lsp_definitions<cr>",                  desc = "Show Telescope Definition" },
     },
     opts = {
       -- configure jdtls and attach to Java ft
@@ -107,14 +107,15 @@ return {
               vim.opt_local.shiftwidth = 4
               vim.opt_local.tabstop = 4
               vim.opt_local.cmdheight = 2 -- more space in the neovim command line for displaying messages
-              vim.bo.expandtab = true -- always uses spaces instead of tab characters (et).
-              vim.bo.softtabstop = 4 -- number of spaces a <Tab> counts for. When 0, feature is off (sts).
+              vim.bo.expandtab = true     -- always uses spaces instead of tab characters (et).
+              vim.bo.softtabstop = 4      -- number of spaces a <Tab> counts for. When 0, feature is off (sts).
 
               --Find root of project
+              --local test = =new testiong 123
               local root_markers =
-                { ".git", "mvnw", "mvnw.bat", "gradlew", "pom.xml", "build.gradle", "gradle.settings" }
-              --local root_dir = require("jdtls.setup").find_root(root_markers)
-              local root_dir = require("user.jdtls").find_root(root_markers)
+              { ".git", "mvnw", "mvnw.bat", "gradlew", "pom.xml", "build.gradle", "gradle.settings" }
+              local root_dir = require("jdtls.setup").find_root(root_markers)
+              -- local root_dir = require("user.jdtls").find_root(root_markers)
               if root_dir == "" then
                 return
               end
@@ -159,7 +160,8 @@ return {
                   java = {
                     jdt = {
                       ls = {
-                        vmargs = "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx8G -Xms8G",
+                        vmargs =
+                        "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx8G -Xms8G",
                       },
                     },
                     eclipse = {
